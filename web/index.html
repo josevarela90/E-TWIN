@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>E-TWIN · SCADA OT 2.0</title>
+  <style>/* E-TWIN 2.0 — no external assets or libraries. */
+:root{color-scheme:dark;--bg:#0b1218;--panel:#111d26;--panel-alt:#13212b;--line:#26353e;--text:#e8f0f3;--muted:#91a4b0;--mint:#75e0c6;--coral:#ffa184;--yellow:#e9c978;--red:#ff8589;--radius:18px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);line-height:1.5}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--mint);outline-offset:4px}button{touch-action:manipulation}a{color:inherit}p,h1,h2,h3{margin:0}svg{display:block;width:100%}[hidden]{display:none!important}.app{max-width:1496px;margin:auto;padding:0 40px 24px}.topbar{height:100px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;text-decoration:none;gap:13px;font-size:25px;font-weight:760;letter-spacing:1px}.brand-icon{width:43px;height:43px;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:1;border:1px solid #75e0c64d;border-radius:10px;background:#75e0c612;color:var(--mint);position:relative}.brand-icon span{font-size:17px;position:absolute;right:2px;top:2px}.brand small{font-size:8px;display:block;letter-spacing:2.1px;color:var(--muted);font-weight:500}.top-actions{display:flex;align-items:center;gap:18px}.mode-pill{font-size:10px;letter-spacing:1.2px;padding:7px 10px;background:#20313b;border:1px solid var(--line);border-radius:30px;font-weight:750;color:var(--muted)}.mode-pill.live{color:var(--mint);border-color:#75e0c644;background:#75e0c610}.mode-pill.demo{color:var(--coral);border-color:#ffa18444;background:#ffa18410}.button{padding:10px 17px;border-radius:8px;border:1px solid transparent;font-size:12px;font-weight:670;white-space:nowrap}.button.secondary{color:var(--text);border-color:#3b4d58;background:transparent}.button.secondary:hover{background:#1c2d38}.button.primary{background:var(--mint);color:#0b1918}.button.small{padding:7px 11px;font-size:11px}.hero{display:flex;justify-content:space-between;gap:30px;align-items:center;padding:38px 0 30px}.eyebrow{font-size:9px;letter-spacing:1.8px;font-weight:750;color:var(--mint);margin-bottom:11px}h1{font-size:clamp(24px,2.6vw,37px);line-height:1.24;font-weight:570;letter-spacing:-1.1px}h1 span{color:var(--muted)}.hero-copy{font-size:12px;color:var(--muted);max-width:530px;margin-top:15px}.connection-card{display:flex;align-items:flex-start;gap:11px;max-width:285px;padding:17px 18px;background:var(--panel);border-radius:12px;border:1px solid var(--line);font-size:11px}.connection-card strong{font-size:12px;font-weight:650}.connection-card p{color:var(--muted);margin-top:5px;font-size:11px}.connection-dot{width:7px;height:7px;border-radius:50%;background:#657886;flex-shrink:0;margin-top:5px}.connection-dot.online{background:var(--mint);box-shadow:0 0 0 4px #75e0c614}.connection-dot.warning{background:var(--yellow)}.connection-dot.error{background:var(--red)}.notice{padding:12px 17px;border-radius:10px;font-size:12px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}.demo-notice{background:#ffa18412;border:1px solid #ffa18455;color:#ffc3ad}.notice .text-button{margin-left:auto}.error-notice{color:#f6b1b4;background:#ff858910;border:1px solid #ff858944}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:22px}.metric{padding:20px 21px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}.metric.featured{background:linear-gradient(125deg,#183831,#13272b);border-color:#387363}.metric-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.metric-symbol{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#25333d;color:#b6c8d3;font-size:14px}.featured .metric-symbol{background:#75e0c622;color:var(--mint)}.metric-value{font-size:clamp(25px,3.05vw,43px);font-weight:550;letter-spacing:-1.2px;line-height:1.3;margin:13px 0 8px;white-space:nowrap;font-variant-numeric:tabular-nums}.metric-value small{font-size:14px;color:var(--muted);margin-left:8px;font-weight:450;letter-spacing:0}.featured .metric-value{color:var(--mint)}.metric-note{font-size:10px;color:var(--muted)}.workspace{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(275px,1fr);gap:22px;margin-bottom:22px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px}.panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}.panel-heading .eyebrow{margin-bottom:6px;font-size:8px}h2{font-size:17px;letter-spacing:-.3px;font-weight:560}.state-chip{white-space:nowrap;font-size:8px;font-weight:750;letter-spacing:.9px;background:#20313b;color:var(--muted);padding:6px 9px;border:1px solid #3a4a55;border-radius:6px}.state-chip.running{color:var(--mint);background:#75e0c612;border-color:#75e0c644}.state-chip.warning{color:var(--coral);background:#ffa18412;border-color:#ffa18444}.twin-drawing{margin:18px -10px 0}.wire{stroke:#34515e;stroke-width:2;fill:none;stroke-dasharray:5 7}.sensor-node rect,.master-node rect,.cloud-node rect{fill:#14232d;stroke:#344d59;stroke-width:1.2}.sensor-node circle{fill:#617683}.svg-small{font:8px ui-sans-serif,system-ui,sans-serif;fill:#95aebc;letter-spacing:1px}.svg-main{font:12px ui-sans-serif,system-ui,sans-serif;fill:#d6e5ec;font-weight:650}.svg-sub{font:8px ui-sans-serif,system-ui,sans-serif;fill:#8aa6b5}.twin-drawing.energy-ok .energy-node circle{fill:var(--mint)}.twin-drawing.vibration-ok .vibration-node circle{fill:var(--coral)}.twin-drawing.energy-ok .energy-wire{stroke:#75e0c6}.twin-drawing.vibration-ok .vibration-wire{stroke:var(--coral)}.twin-drawing.master-ok .master-wire{stroke:var(--mint)}.twin-drawing.machine-running .rotor{transform-box:fill-box;transform-origin:center;animation:rotate 2.8s linear infinite}.twin-drawing.machine-running .motor{filter:drop-shadow(0 0 14px #75e0c612)}@keyframes rotate{to{transform:rotate(360deg)}}.node-statuses{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:14px;border-top:1px solid var(--line)}.node-statuses>div{position:relative;padding-left:13px;font-size:10px;color:var(--muted)}.node-statuses strong{display:block;font-size:10px;color:#c4d4dc;font-weight:500;margin-top:4px}.node-indicator{position:absolute;left:0;top:5px;width:5px;height:5px;border-radius:50%;background:#607680}.node-indicator.ok{background:var(--mint)}.node-indicator.bad{background:var(--coral)}.caption{font-size:9px;color:var(--muted);margin-top:14px}.condition-icon{font-size:28px;line-height:1;color:var(--mint)}.assessment{border:1px solid #34454f;border-radius:11px;background:#162630;padding:15px;margin-top:22px}.assessment.warning{border-color:#bc8b5655;background:#382e241f}.assessment.alarm{border-color:#c9656955;background:#58303422}.assessment.good{border-color:#75e0c644;background:#75e0c60a}.assessment-label{font-size:8px;letter-spacing:1.5px;color:var(--muted)}.assessment h3{font-size:18px;font-weight:550;margin:6px 0}.assessment p{font-size:11px;color:var(--muted)}.analysis-list{margin:18px 0 14px;font-size:10px}.analysis-list>div{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px solid #26353e85}.analysis-list dt{color:var(--muted)}.analysis-list dd{margin:0;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;text-align:right}.technical-note{font-size:9px;color:var(--muted);line-height:1.65}.technical-note strong{color:#c6d5dc}.vibration-strip{display:grid;grid-template-columns:1.1fr .7fr .7fr 1.2fr;align-items:center;gap:24px;border:1px solid #5f4c48;background:linear-gradient(100deg,#212728,#1b252d);border-radius:var(--radius);padding:24px;margin-bottom:22px}.vibration-strip .eyebrow{color:var(--coral);font-size:8px;margin-bottom:7px}.vibration-strip h2{font-size:18px}.vibration-stat{border-left:1px solid #68595277;padding-left:24px}.vibration-stat>span{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.vibration-stat strong{font-size:30px;font-weight:500;letter-spacing:-1px;color:var(--coral);font-variant-numeric:tabular-nums}.vibration-stat small{font-size:11px;color:var(--muted);margin-left:6px}.vibration-context{font-size:10px;color:var(--muted)}.vibration-context strong{font-size:11px;color:#dac8bf;font-weight:600}.vibration-context p{margin-top:6px}.history-panel{padding-bottom:20px}.chart-actions{display:flex;gap:14px;align-items:center;font-size:10px;color:var(--muted)}.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:26px}.chart-block h3{font-size:11px;font-weight:500;display:flex;align-items:center;gap:7px}.chart-block h3 small{font-size:9px;color:var(--muted);font-weight:400}.legend{width:6px;height:6px;border-radius:50%;display:inline-block}.legend.mint{background:var(--mint)}.legend.coral{background:var(--coral)}.chart-wrap{height:180px;margin-top:14px;position:relative}canvas{width:100%;height:100%;display:block}.footer{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:26px;font-size:10px;color:var(--muted)}.footer>div{display:flex;gap:14px;align-items:center}.footer strong{color:#bed0da;font-size:12px;letter-spacing:1px}.text-button{background:none;border:0;padding:0;color:var(--mint);font-size:11px;font-weight:550;text-decoration:underline;text-underline-offset:4px}.demo-notice .text-button{color:var(--coral)}dialog{width:min(490px,calc(100% - 30px));background:#12212c;color:var(--text);border:1px solid #425765;border-radius:18px;padding:28px;max-height:calc(100vh - 40px);overflow:auto;box-shadow:0 30px 100px #0008}dialog::backdrop{background:#030a10b8;backdrop-filter:blur(5px)}.dialog-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.dialog-heading h2{font-size:22px}.dialog-heading .eyebrow{margin-bottom:6px}.close-button{background:none;color:var(--muted);border:0;font-size:26px;line-height:1;padding:0 4px}.dialog-copy{font-size:12px;color:var(--muted);margin:16px 0 22px}label{display:block;font-size:12px;margin:16px 0 7px}label span{display:block;font-size:10px;color:var(--muted);font-weight:400}input{width:100%;padding:11px 13px;border:1px solid #425764;background:#0c171f;color:var(--text);border-radius:8px;font-size:13px}input::placeholder{color:#67808e}.field-help{font-size:10px;color:var(--muted);margin-top:12px;line-height:1.7}.dialog-actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px}.form-error{font-size:11px;color:var(--red);margin-top:12px}.data-stale .metric-value,.data-stale .vibration-stat strong{opacity:.55}
+@media(min-width:1500px){.app{padding-left:32px;padding-right:32px}.hero{padding-top:44px;padding-bottom:35px}.twin-drawing{margin:18px 3px 0}.chart-wrap{height:200px}}
+@media(max-width:1050px){.app{padding:0 24px 24px}.workspace{grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr);gap:16px}.panel{padding:18px}.metrics{gap:12px}.metric{padding:16px}.vibration-strip{gap:16px;padding:21px}.vibration-stat{padding-left:16px}.vibration-context{font-size:9px}.node-statuses{gap:7px}.node-statuses>div,.node-statuses strong{font-size:9px}.connection-card{max-width:235px}.topbar{height:86px}}
+@media(max-width:800px){.hero{padding:26px 0;align-items:flex-start}.hero-copy{max-width:370px}.connection-card{max-width:210px;margin-top:24px}.workspace{grid-template-columns:1fr}.twin-drawing{max-width:750px;margin:10px auto 0}.condition-panel{display:grid;grid-template-columns:1fr 1fr;column-gap:25px}.condition-panel .panel-heading{grid-column:1/-1}.assessment{margin-top:17px;align-self:start}.analysis-list{margin-top:10px}.technical-note{grid-column:1/-1}.vibration-strip{grid-template-columns:1fr .7fr .7fr}.vibration-context{grid-column:1/-1;border-top:1px solid #68595255;padding-top:13px;display:flex;gap:10px;align-items:center}.vibration-context p{margin:0}.footer>div span{display:none}.metric-value{font-size:29px}.metric-value small{font-size:11px}.metric-top{font-size:10px}.metric-symbol{width:23px;height:23px;font-size:12px}.metrics{gap:10px}.panel-heading .eyebrow{font-size:7px}}
+@media(max-width:600px){.app{padding:0 15px 20px}.topbar{height:76px;gap:10px}.brand{font-size:21px;gap:9px}.brand-icon{width:35px;height:35px;font-size:26px}.brand small{font-size:6px;letter-spacing:1.6px}.top-actions{gap:7px}.top-actions .mode-pill{font-size:7px;letter-spacing:.5px;padding:5px 6px}.top-actions .button{padding:8px 9px;font-size:10px}.hero{display:block;padding:24px 0 20px}.hero h1{font-size:28px}.hero .eyebrow{font-size:7px}.hero-copy{font-size:11px}.connection-card{max-width:none;margin-top:18px;padding:11px 14px}.connection-card p{margin-top:2px;font-size:10px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}.metric{padding:15px;border-radius:13px}.metric-value{font-size:32px;margin-top:12px}.metric-note{font-size:9px}.workspace{gap:16px;margin-bottom:16px}.panel{padding:17px;border-radius:14px}h2{font-size:15px}.state-chip{font-size:7px;padding:5px 6px}.twin-drawing{margin-left:-12px;margin-right:-12px}.node-statuses{gap:7px}.node-statuses>div,.node-statuses strong{font-size:8px}.condition-panel{display:block}.condition-panel .assessment{margin-top:18px}.analysis-list{font-size:11px}.technical-note{font-size:9px}.vibration-strip{grid-template-columns:1fr 1fr;gap:19px 10px;padding:18px;margin-bottom:16px}.vibration-strip>div:first-child{grid-column:1/-1}.vibration-strip h2{font-size:19px}.vibration-stat{padding-left:13px}.vibration-stat strong{font-size:32px}.vibration-context{display:block;font-size:10px}.vibration-context p{margin-top:4px}.chart-grid{grid-template-columns:1fr;gap:23px;margin-top:22px}.chart-wrap{height:165px}.chart-actions{gap:7px;flex-direction:column;align-items:flex-end}.chart-actions .button{font-size:9px;padding:5px 7px}.history-panel .panel-heading h2{max-width:200px}.caption{font-size:8px}.footer{font-size:8px;gap:10px;flex-wrap:wrap}.footer p{order:3;width:100%}.footer .text-button{margin-left:auto;font-size:10px}.notice{font-size:10px}.notice .text-button{margin-left:0}dialog{padding:22px}.dialog-heading h2{font-size:20px}.dialog-actions .button{font-size:10px;padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){.twin-drawing.machine-running .rotor{animation:none}}
+
+/* SCADA 2.0: flujo, indicadores, informacion de sensores y autentificacion OT */
+.twin-drawing .instrument{fill:#0b1d29;stroke:#2c6170;stroke-width:1.5}
+.twin-drawing .scada-readouts{pointer-events:none}
+.energy-particle,.vib-particle{opacity:0}
+.twin-drawing.energy-ok .energy-wire,.twin-drawing.vibration-ok .vibration-wire,
+.twin-drawing.master-ok .master-wire{stroke-dasharray:7 10;animation:scada-flow 1.4s linear infinite}
+.twin-drawing.energy-ok .energy-particle{opacity:.9;animation:flow-electric 2.8s ease-in-out infinite alternate}
+.twin-drawing.vibration-ok .vib-particle{opacity:.85;animation:flow-vibration 2.4s ease-in-out infinite alternate}
+.twin-drawing.machine-alarm .motor{animation:motor-alarm .7s ease-in-out infinite alternate}
+.twin-drawing.machine-running .motor{filter:drop-shadow(0 0 16px #75e0c636)}
+@keyframes scada-flow{to{stroke-dashoffset:-34}}
+@keyframes flow-electric{to{transform:translate(112px,65px)}}
+@keyframes flow-vibration{to{transform:translate(112px,-60px)}}
+@keyframes motor-alarm{to{filter:drop-shadow(0 0 14px #ff8589a6)}}
+.scada-live-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 16px}
+.scada-live-board>div{background:#0c1a22;border:1px solid #29434d;border-radius:7px;padding:10px 8px;min-width:0}
+.scada-live-board span{display:block;font-size:9px;color:var(--muted);margin-bottom:5px}
+.scada-live-board strong{display:block;font-size:13px;color:#b7f0e4;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.telemetry-panel{margin:0 0 22px}
+.telemetry-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.telemetry-grid>div{background:#0c1921;border:1px solid #283c48;border-radius:11px;padding:12px}
+.telemetry-grid span{display:block;color:var(--muted);font-size:10px;min-height:29px}
+.telemetry-grid strong{display:inline-block;color:#e8f1f4;font-size:20px;font-variant-numeric:tabular-nums;font-weight:600;margin-top:5px}
+.telemetry-grid small{display:inline-block;color:var(--muted);font-size:10px;margin-left:7px}
+.security-pill{background:#3f2d1d;color:#e9c978;border:1px solid #9a7345;border-radius:9px;padding:7px 12px;font-size:9px;font-weight:700}
+.security-pill.protected{background:#153a31;color:#8ee8cf;border-color:#2b7461}
+.ot-policy{display:flex;gap:18px;align-items:center;border-top:1px solid var(--line);margin-top:18px;padding-top:16px;font-size:11px;color:var(--muted)}
+.ot-policy strong{color:var(--mint);min-width:143px}
+@media(max-width:1000px){.telemetry-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.scada-live-board{grid-template-columns:repeat(2,minmax(0,1fr))}.telemetry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-policy{display:block}.ot-policy strong{display:block;margin-bottom:9px}.scada-live-board strong{font-size:12px}}
+@media(max-width:370px){.telemetry-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.twin-drawing .wire,.energy-particle,.vib-particle,.twin-drawing.machine-alarm .motor{animation:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="E-TWIN inicio"><span class="brand-icon" aria-hidden="true">E<span>↗</span></span><span>E-TWIN<small>ENERGY DIGITAL TWIN</small></span></a>
+    <div class="top-actions"><span class="mode-pill" id="mode-pill">SIN CONEXIÓN</span><button class="button secondary" id="configure-button" type="button">Conectar canal</button></div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div><p class="eyebrow">INTELIGENCIA EN EL PUNTO DE MEDICIÓN</p><h1>La energía cuenta una historia.<br><span>Escucha a tu máquina.</span></h1><p class="hero-copy">Supervisión SCADA de solo lectura. Sensores PZEM + IMU, estado, referencia de 10 muestras y alarmas desde ThingSpeak.</p></div>
+    <div class="connection-card"><span class="connection-dot" id="connection-dot"></span><div><strong id="connection-title">Esperando configuración</strong><p id="connection-detail">Conecta tu canal de ThingSpeak para comenzar.</p></div></div>
+  </section>
+
+  <section id="demo-notice" class="notice demo-notice" hidden><strong>DEMOSTRACIÓN · DATOS SIMULADOS</strong><span>Esta vista no representa mediciones de tus equipos.</span><button type="button" id="stop-demo" class="text-button">Salir de la demo</button></section>
+  <section id="error-notice" class="notice error-notice" role="status" hidden></section>
+
+  <section class="metrics" aria-label="Mediciones eléctricas principales">
+    <article class="metric"><div class="metric-top"><span>Voltaje</span><span class="metric-symbol">V</span></div><p class="metric-value"><span id="voltage-value">—</span><small>V</small></p><p class="metric-note">Tensión RMS</p></article>
+    <article class="metric"><div class="metric-top"><span>Corriente</span><span class="metric-symbol">A</span></div><p class="metric-value"><span id="current-value">—</span><small>A</small></p><p class="metric-note">Corriente RMS</p></article>
+    <article class="metric featured"><div class="metric-top"><span>Potencia activa</span><span class="metric-symbol">↗</span></div><p class="metric-value"><span id="power-value">—</span><small>W</small></p><p class="metric-note">Consumo instantáneo</p></article>
+    <article class="metric"><div class="metric-top"><span>Energía acumulada</span><span class="metric-symbol">Σ</span></div><p class="metric-value"><span id="energy-value">—</span><small>kWh</small></p><p class="metric-note">Contador persistente del PZEM</p></article>
+  </section>
+
+  <section class="workspace">
+    <article class="panel twin-panel">
+      <div class="panel-heading"><div><p class="eyebrow">GEMELO DIGITAL · VISTA DE ESTADO</p><h2>De la medición a la condición</h2></div><span class="state-chip" id="machine-state">SIN DATOS</span></div>
+      <div class="twin-drawing" id="twin-drawing">
+        <svg viewBox="0 0 700 322" role="img" aria-labelledby="twin-title twin-desc">
+          <title id="twin-title">Sistema E-TWIN</title><desc id="twin-desc">El sensor eléctrico y el sensor de vibración observan una máquina. El maestro Core2 recibe ambos por ESP-NOW y publica la telemetría en ThingSpeak.</desc>
+          <defs><linearGradient id="motor-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#294856"/><stop offset="1" stop-color="#152d39"/></linearGradient><pattern id="dot-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#31414b"/></pattern></defs>
+          <rect width="700" height="322" fill="url(#dot-grid)" opacity=".5"/>
+          <path d="M166 95 H245 V158 H290" class="wire energy-wire"/>
+          <path d="M166 234 H244 V189 H290" class="wire vibration-wire"/>
+          <path d="M430 175 H503 V130 H542" class="wire master-wire"/>
+          <path d="M588 171 V219" class="wire master-wire"/>
+          <g class="sensor-node energy-node"><rect x="20" y="55" width="153" height="81" rx="13"/><circle cx="42" cy="76" r="4"/><text x="54" y="81" class="svg-small">ESCLAVO 01</text><text x="36" y="103" class="svg-main">ATOMS3 Lite</text><text x="36" y="121" class="svg-sub">PZEM-004T · Electricidad</text></g>
+          <g class="sensor-node vibration-node"><rect x="20" y="195" width="153" height="81" rx="13"/><circle cx="42" cy="216" r="4"/><text x="54" y="221" class="svg-small">ESCLAVO 02</text><text x="36" y="243" class="svg-main">ATOMS3</text><text x="36" y="261" class="svg-sub">IMU · Vibración filtrada</text></g>
+          <g class="motor"><rect x="285" y="143" width="142" height="67" rx="14" fill="url(#motor-gradient)" stroke="#5a8292"/><rect x="413" y="159" width="40" height="34" rx="3" fill="#2b4c5b" stroke="#5a8292"/><path d="M311 146 V207 M323 146 V207 M335 146 V207 M347 146 V207 M359 146 V207 M371 146 V207 M383 146 V207" stroke="#3b6171" stroke-width="3"/><circle cx="295" cy="176" r="30" fill="#17323f" stroke="#5a8292"/><g class="rotor"><path d="M295 152 V200 M271 176 H319 M278 159 L312 193 M278 193 L312 159" stroke="#72dac7" stroke-width="3"/><circle cx="295" cy="176" r="7" fill="#98e2d5"/></g><path d="M307 211 V224 H406 V211" fill="none" stroke="#5a8292" stroke-width="6"/><rect x="324" y="126" width="44" height="17" rx="4" fill="#294856" stroke="#5a8292"/><text x="355" y="254" text-anchor="middle" class="svg-main">Máquina monitorizada</text><text x="355" y="275" text-anchor="middle" class="svg-sub">Representación orientativa</text></g>
+          <g class="master-node"><rect x="537" y="88" width="145" height="83" rx="13"/><text x="553" y="111" class="svg-small">MAESTRO</text><text x="553" y="136" class="svg-main">M5Stack Core2</text><text x="553" y="154" class="svg-sub">Análisis + MQTT / TLS</text></g>
+          <g class="cloud-node"><rect x="537" y="219" width="145" height="48" rx="13"/><text x="610" y="248" text-anchor="middle" class="svg-main">ThingSpeak</text></g>
+          <text x="474" y="105" text-anchor="middle" class="svg-small">ESP-NOW</text><text x="628" y="201" text-anchor="middle" class="svg-small">NUBE</text>
+          <g class="scada-readouts">
+            <rect x="195" y="10" width="315" height="40" rx="8" class="instrument"/>
+            <text x="208" y="24" class="svg-small">PZEM / ENERGÍA</text>
+            <text x="208" y="40" class="svg-main" id="scada-electric-line">— V  ·  — A  ·  — W</text>
+            <rect x="195" y="277" width="315" height="38" rx="8" class="instrument"/>
+            <text x="208" y="289" class="svg-small">IMU / VIBRACIÓN</text>
+            <text x="208" y="305" class="svg-main" id="scada-vibration-line">— RMS  ·  — pico</text>
+          </g>
+          <g class="energy-particle"><circle r="5" cx="175" cy="95" fill="#7de1c7"/></g>
+          <g class="vib-particle"><circle r="5" cx="175" cy="234" fill="#ffa184"/></g>
+        </svg>
+      </div>
+      <div class="scada-live-board" aria-label="Lecturas instantáneas en el proceso">
+        <div><span>Voltaje</span><strong id="scada-voltage">—</strong></div>
+        <div><span>Corriente</span><strong id="scada-current">—</strong></div>
+        <div><span>Potencia</span><strong id="scada-power">—</strong></div>
+        <div><span>RMS vibración</span><strong id="scada-rms">—</strong></div>
+        <div><span>Factor P.</span><strong id="scada-pf">—</strong></div>
+        <div><span>Frecuencia</span><strong id="scada-hz">—</strong></div>
+        <div><span>kWh acumulados</span><strong id="scada-kwh">—</strong></div>
+        <div><span>Pico vibración</span><strong id="scada-peak">—</strong></div>
+      </div>
+      <div class="node-statuses"><div><span class="node-indicator" id="energy-indicator"></span><span>Eléctrico</span><strong id="energy-status">Sin datos</strong></div><div><span class="node-indicator" id="vibration-indicator"></span><span>Vibración</span><strong id="vibration-status">Sin datos</strong></div><div><span class="node-indicator" id="master-indicator"></span><span>Maestro → nube</span><strong id="master-status">Sin datos</strong></div></div>
+      <p class="caption">El giro indica el estado inferido de operación; no representa velocidad medida ni RPM.</p>
+    </article>
+
+    <article class="panel condition-panel"><div class="panel-heading"><div><p class="eyebrow">LECTURA DE OPERACIÓN</p><h2>Condición observada</h2></div><span class="condition-icon" aria-hidden="true">◉</span></div>
+      <div class="assessment" id="assessment"><span class="assessment-label">ESTADO DEL SISTEMA</span><h3 id="assessment-title">A la espera de datos</h3><p id="assessment-copy">Conecta un canal o explora la demo para ver cómo se presenta la telemetría.</p></div>
+      <dl class="analysis-list"><div><dt>Potencia aparente · V × I</dt><dd id="apparent-value">— VA</dd></div><div><dt>Factor de potencia</dt><dd id="pf-value">—</dd></div><div><dt>Frecuencia de red</dt><dd id="frequency-value">— Hz</dd></div><div><dt>Comparación de potencia</dt><dd id="relative-power-value">—</dd></div><div><dt>Comparación de vibración</dt><dd id="relative-vibration-value">—</dd></div></dl>
+      <p class="technical-note"><strong>Alcance:</strong> el factor de potencia y las desviaciones no equivalen a eficiencia energética. La eficiencia real necesita una medición de trabajo útil o producción. Los umbrales se calibran en el maestro para una condición de carga comparable.</p>
+    </article>
+  </section>
+
+  <section class="vibration-strip" aria-label="Vibración filtrada"><div><p class="eyebrow">ACELERACIÓN DE VIBRACIÓN</p><h2>Una señal, menos ruido.</h2></div><div class="vibration-stat"><span>RMS vectorial</span><strong id="vib-rms-value">—</strong><small>m/s²</small></div><div class="vibration-stat"><span>Pico vectorial</span><strong id="vib-peak-value">—</strong><small>m/s²</small></div><div class="vibration-context"><strong>IMU · 500 Hz · filtros Butterworth 6–75 Hz (4.º orden)</strong><p>Gravedad y componentes lentas atenuadas. La banda es limitada; no es velocidad en mm/s ni diagnóstico ISO.</p></div></section>
+
+  <section class="panel telemetry-panel" aria-label="Diagnóstico y medidas complementarias">
+    <div class="panel-heading"><div><p class="eyebrow">DIAGNÓSTICO DETALLADO</p><h2>Variables adicionales y seguridad OT</h2></div><span class="security-pill" id="security-status">SIN DATOS OT</span></div>
+    <div class="telemetry-grid">
+      <div><span>RMS eje X</span><strong id="axis-x">—</strong><small>m/s²</small></div>
+      <div><span>RMS eje Y</span><strong id="axis-y">—</strong><small>m/s²</small></div>
+      <div><span>RMS eje Z</span><strong id="axis-z">—</strong><small>m/s²</small></div>
+      <div><span>Factor de cresta</span><strong id="crest-value">—</strong><small>pico / RMS</small></div>
+      <div><span>Frecuencia de muestreo</span><strong id="sample-rate">—</strong><small>Hz</small></div>
+      <div><span>Muestras por ventana</span><strong id="window-samples">—</strong><small>datos</small></div>
+      <div><span>Indicador sensor IMU</span><strong id="vib-flags">—</strong><small>bits</small></div>
+      <div><span>Muestras perdidas</span><strong id="missed-samples">—</strong><small>datos</small></div>
+      <div><span>Referencia</span><strong id="reference-progress">—</strong><small>muestras</small></div>
+      <div><span>Tramas no autenticadas</span><strong id="rejected-auth">—</strong><small>desde arranque</small></div>
+      <div><span>Repeticiones rechazadas</span><strong id="rejected-replay">—</strong><small>desde arranque</small></div>
+      <div><span>Tiempo de lectura</span><strong id="data-lag">—</strong><small>última nube</small></div>
+    </div>
+    <div class="ot-policy"><strong>OT · SOLO LECTURA</strong><span>El navegador no controla la máquina. ESP-NOW usa cifrado de pares + autenticación HMAC y el Core2 publica por MQTT/TLS. El estado OT del panel es reportado por el maestro, no una verificación criptográfica directa desde el navegador.</span></div>
+  </section>
+
+  <section class="panel history-panel"><div class="panel-heading"><div><p class="eyebrow">HISTORIAL DEL CANAL</p><h2>La evolución también importa</h2></div><div class="chart-actions"><span id="history-count">0 muestras</span><button class="button secondary small" id="export-button" type="button" disabled>Exportar CSV</button></div></div><div class="chart-grid"><div class="chart-block"><h3><span class="legend mint"></span>Potencia activa <small>W</small></h3><div class="chart-wrap"><canvas id="power-chart" aria-label="Histórico de potencia activa en vatios" role="img"></canvas></div></div><div class="chart-block"><h3><span class="legend coral"></span>Vibración RMS <small>m/s²</small></h3><div class="chart-wrap"><canvas id="vibration-chart" aria-label="Histórico de aceleración RMS de vibración" role="img"></canvas></div></div></div><p class="caption" id="history-caption">Se mostrarán hasta las últimas 100 muestras. Los datos ausentes interrumpen la curva.</p></section>
+
+  <footer class="footer"><div><strong>E-TWIN</strong><span>Un sistema. Dos fuentes. Una lectura de estado.</span></div><p id="last-update">Sin mediciones recibidas.</p><button type="button" class="text-button" id="demo-button">Explorar demo</button></footer>
+</main>
+
+<dialog id="config-dialog" aria-labelledby="config-title"><form id="config-form"><div class="dialog-heading"><div><p class="eyebrow">ORIGEN DE LOS DATOS</p><h2 id="config-title">Conectar a ThingSpeak</h2></div><button class="close-button" id="close-dialog" type="button" aria-label="Cerrar configuración">×</button></div><p class="dialog-copy">Introduce el canal que recibe las publicaciones MQTT del Core2.</p><label for="channel-input">Channel ID</label><input id="channel-input" name="channel" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="Ej. 1234567" required autocomplete="off"><label for="key-input">Read API Key <span>Solo si el canal es privado</span></label><input id="key-input" name="key" type="password" placeholder="Clave de lectura del canal" autocomplete="off" spellcheck="false"><p class="field-help">La clave de lectura se conserva únicamente en memoria hasta cerrar o recargar esta página. No introduzcas claves de escritura ni credenciales MQTT.</p><p class="field-help">Consulta cada 20 segundos. La vista identifica como antigua una muestra con más de 65 segundos. Los datos de nube son instantáneas del último intervalo publicado.</p><div class="form-error" id="form-error" role="alert"></div><div class="dialog-actions"><button class="button secondary" id="reset-button" type="button">Borrar configuración</button><button class="button primary" type="submit">Conectar canal</button></div></form></dialog>
+<script>/* E-TWIN 2.0 OT. Contrato: docs/DATA_CONTRACT.md.
+ * Pegar este archivo completo en JavaScript del plugin.
+ * No almacena claves. No publica ni escribe datos en ThingSpeak.
+ * Estado de nube = instantánea. e/v son validez al publicar, no un latido actual.
+ */
+(function () {
+  "use strict";
+
+  const POLL_MS = 20000;
+  const STALE_MS = 65000;
+  const MAX_GAP_MS = 32000;
+  const STATES = Object.freeze({ WAIT: "SIN LECTURA", STOP: "BAJO UMBRAL", RUN: "OPERANDO", WARN: "ADVERTENCIA", ALARM: "ALARMA", PARTIAL: "PARCIAL", BASE: "REFERENCIA" });
+  const KEYS = new Set(["ver", "state", "e", "v", "ea", "va", "alarm", "ref", "dp", "vr", "boot", "seq", "vf", "run", "ot", "rc", "ct", "vx", "vy", "vz", "cf", "fs", "ns", "mi", "rj", "rp"]);
+
+  function finiteNumber(value) {
+    if (typeof value === "number") return Number.isFinite(value) ? value : null;
+    if (typeof value !== "string" || !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(value.trim())) return null;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function parseStatus(raw) {
+    const out = Object.create(null);
+    if (typeof raw !== "string" || raw.length > 1024) return out;
+    for (const part of raw.split(";")) {
+      const split = part.indexOf("=");
+      if (split <= 0) continue;
+      const key = part.slice(0, split).trim();
+      const value = part.slice(split + 1).trim();
+      if (!KEYS.has(key)) continue;
+      out[key] = key === "state" ? value : finiteNumber(value);
+    }
+    return out;
+  }
+
+  function parseFeed(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    const time = Date.parse(raw.created_at);
+    if (!Number.isFinite(time)) return null;
+    const status = parseStatus(raw.status);
+    const metaValid = status.ver === 2 && Object.prototype.hasOwnProperty.call(STATES, status.state) &&
+      (status.e === 0 || status.e === 1) && (status.v === 0 || status.v === 1) &&
+      (status.ref === 0 || status.ref === 1) && Number.isInteger(status.alarm) && status.alarm >= 0 && status.alarm <= 63 && (status.run === 0 || status.run === 1) && (status.ot === 0 || status.ot === 1);
+    const values = Array.from({ length: 8 }, (_, i) => {
+      const value = finiteNumber(raw["field" + (i + 1)]);
+      return value !== null && value >= 0 && (i !== 5 || value <= 1) ? value : null;
+    });
+    const energyValid = metaValid && status.e === 1 && values.slice(0, 6).every(x => x !== null);
+    const vibrationValid = metaValid && status.v === 1 && values[6] !== null && values[7] !== null && values[7] + 1e-5 >= values[6];
+    if (!energyValid) values.fill(null, 0, 6);
+    if (!vibrationValid) values.fill(null, 6, 8);
+    return { time, entryId: finiteNumber(raw.entry_id), status, metaValid, energyValid, vibrationValid, values };
+  }
+
+  function normalizeFeeds(feeds) {
+    if (!Array.isArray(feeds)) return [];
+    return feeds.slice(-100).map(parseFeed).filter(Boolean).sort((a, b) => a.time - b.time || (a.entryId || 0) - (b.entryId || 0));
+  }
+
+  function freshness(sample, now) {
+    if (!sample) return { fresh: false, age: null, energyAge: null, vibrationAge: null, future: false };
+    const difference = now - sample.time;
+    const age = Math.max(0, difference);
+    const nodeAge = value => value !== null && Number.isFinite(value) && value >= 0 ? value + age : null;
+    return { fresh: difference >= -15000 && difference <= STALE_MS, age, energyAge: nodeAge(sample.status.ea), vibrationAge: nodeAge(sample.status.va), future: difference < -15000 };
+  }
+
+  function segments(samples, index) {
+    const result = [];
+    let current = [];
+    let previous = null;
+    for (const sample of samples) {
+      const value = sample.values[index];
+      if (value === null || (previous !== null && sample.time - previous > MAX_GAP_MS)) {
+        if (current.length) result.push(current);
+        current = [];
+      }
+      if (value !== null) current.push({ time: sample.time, value });
+      previous = sample.time;
+    }
+    if (current.length) result.push(current);
+    return result;
+  }
+
+  function csvCell(value) {
+    if (value === null || value === undefined) return "";
+    let text = String(value);
+    if (/^[=+@\t\r]/.test(text) || /^-\D/.test(text)) text = "'" + text;
+    return '"' + text.replace(/"/g, '""') + '"';
+  }
+
+  // Export only the pure data functions when run by the included Node checks.
+  if (typeof module !== "undefined" && module.exports) module.exports = { finiteNumber, parseStatus, parseFeed, normalizeFeeds, freshness, segments, csvCell, STALE_MS };
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  const byId = id => document.getElementById(id);
+  const text = (id, value) => { byId(id).textContent = value; };
+  const format = (value, decimals) => value === null || value === undefined || !Number.isFinite(value) ? "—" : value.toLocaleString("es-EC", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  const ageLabel = milliseconds => milliseconds === null ? "sin recepción" : milliseconds < 60000 ? Math.floor(milliseconds / 1000) + " s" : Math.floor(milliseconds / 60000) + " min " + Math.floor(milliseconds % 60000 / 1000) + " s";
+  const localTime = time => new Date(time).toLocaleString("es-EC", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const storageKey = "etwin.channel.v1";
+  let channel = "";
+  let readKey = "";
+  let mode = "idle";
+  let history = [];
+  let networkError = "";
+  let pending = null;
+  let requestGeneration = 0;
+  let busy = false;
+  let pollTimer = null;
+  let demoTimer = null;
+  let demoSequence = 100;
+  let lastChartsSignature = "";
+
+  try { const saved = window.localStorage.getItem(storageKey); if (/^[1-9]\d{0,11}$/.test(saved || "")) channel = saved; } catch (_) { /* sandboxed iframe can deny storage */ }
+
+  function setIndicator(id, state) { byId(id).className = "node-indicator" + (state === true ? " ok" : state === false ? " bad" : ""); }
+  function setAssessment(title, description, style) { text("assessment-title", title); text("assessment-copy", description); byId("assessment").className = "assessment" + (style ? " " + style : ""); }
+
+  function alarmDescription(mask) {
+    const labels = [];
+    if (mask & 1) labels.push("tensión fuera del rango configurado");
+    if (mask & 2) labels.push("factor de potencia bajo");
+    if (mask & 4) labels.push("potencia desviada respecto a referencia");
+    if (mask & 8) labels.push("vibración elevada respecto a referencia");
+    if (mask & 16) labels.push("límite absoluto de vibración superado");
+    if (mask & 32) labels.push("parámetros de máquina pendientes de configurar");
+    return labels.length ? labels.join("; ") + "." : "Sin umbrales activados en la última publicación.";
+  }
+
+  function render() {
+    const sample = history.length ? history[history.length - 1] : null;
+    const fresh = freshness(sample, Date.now());
+    const stale = sample && !fresh.fresh;
+    const values = sample ? sample.values : Array(8).fill(null);
+    const metadata = sample && sample.metaValid;
+    const state = metadata ? sample.status.state : "WAIT";
+    const energy = sample ? sample.energyValid : false;
+    const vibration = sample ? sample.vibrationValid : false;
+    const incomplete = metadata && ((sample.status.e === 1 && !energy) || (sample.status.v === 1 && !vibration));
+    const connected = sample && fresh.fresh && !networkError;
+    document.body.classList.toggle("data-stale", Boolean(stale || networkError));
+    byId("demo-notice").hidden = mode !== "demo";
+    byId("mode-pill").className = "mode-pill" + (mode === "demo" ? " demo" : connected ? " live" : "");
+    text("mode-pill", mode === "demo" ? "DEMO · SIMULACIÓN" : connected ? "DATOS DEL CANAL" : mode === "live" ? "CANAL REAL" : "SIN CONEXIÓN");
+    text("configure-button", channel && mode === "live" ? "Canal " + channel : "Conectar canal");
+    byId("error-notice").hidden = !networkError;
+    text("error-notice", networkError);
+    byId("connection-dot").className = "connection-dot" + (connected ? " online" : stale ? " warning" : networkError ? " error" : "");
+    if (mode === "demo") {
+      text("connection-title", "Demostración local");
+      text("connection-detail", "Mediciones simuladas. No hay conexión con tus nodos.");
+    } else if (networkError) {
+      text("connection-title", "No se pudo consultar el canal");
+      text("connection-detail", sample ? "La última lectura se conserva con su antigüedad." : "Revisa el canal, la clave de lectura y la conexión.");
+    } else if (stale) {
+      text("connection-title", fresh.future ? "Revisar reloj del dispositivo" : "Telemetría antigua");
+      text("connection-detail", fresh.future ? "El canal tiene una fecha futura respecto a este navegador." : "Última publicación hace " + ageLabel(fresh.age) + ".");
+    } else if (sample) {
+      text("connection-title", "Última instantánea recibida");
+      text("connection-detail", "Antigüedad " + ageLabel(fresh.age) + " · consulta cada 20 s.");
+    } else {
+      text("connection-title", busy ? "Consultando ThingSpeak…" : mode === "live" ? "Canal sin muestras" : "Esperando configuración");
+      text("connection-detail", mode === "live" ? "Esperando la primera publicación del maestro." : "Conecta tu canal de ThingSpeak para comenzar.");
+    }
+
+    [["voltage-value", 0, 1], ["current-value", 1, 3], ["power-value", 2, 1], ["energy-value", 3, 3], ["vib-rms-value", 6, 3], ["vib-peak-value", 7, 3]].forEach(item => text(item[0], format(values[item[1]], item[2])));
+    text("pf-value", format(values[5], 2));
+    text("frequency-value", format(values[4], 1) + " Hz");
+    text("apparent-value", format(energy ? values[0] * values[1] : null, 1) + " VA");
+    const dp = metadata && energy && sample.status.ref === 1 ? sample.status.dp : null;
+    const vr = metadata && vibration && sample.status.ref === 1 ? sample.status.vr : null;
+    text("relative-power-value", dp === null || dp === undefined ? "Sin comparación" : (dp > 0 ? "+" : "") + format(dp, 1) + " %");
+    text("relative-vibration-value", vr === null || vr === undefined ? "Sin comparación" : format(vr, 2) + " × referencia");
+
+    const nodeLabel = (valid, age) => !sample ? "Sin datos" : valid ? (stale ? "Dato antiguo · " : "Válido al publicar · ") + ageLabel(age) : "Inválido o ausente";
+    text("energy-status", nodeLabel(energy, fresh.energyAge));
+    text("vibration-status", nodeLabel(vibration, fresh.vibrationAge));
+    text("master-status", !sample ? "Sin datos" : stale ? "Última publicación antigua" : mode === "demo" ? "Simulado" : networkError ? "Sin consulta actual" : "Última publicación · " + ageLabel(fresh.age));
+    setIndicator("energy-indicator", sample ? energy && fresh.fresh : null);
+    setIndicator("vibration-indicator", sample ? vibration && fresh.fresh : null);
+    setIndicator("master-indicator", sample ? Boolean(connected) : null);
+    // Condicion de funcionamiento declarada por el Core2 (umbral configurado).
+    // No implica RPM medidas ni permite actuar sobre la maquina.
+    const running = sample && sample.status.run === 1 && energy && fresh.fresh && !networkError && !incomplete;
+    byId("twin-drawing").className = "twin-drawing" + (energy && connected ? " energy-ok" : "") + (vibration && connected ? " vibration-ok" : "") + (connected ? " master-ok" : "") + (running ? " machine-running" : "") + (state === "ALARM" && connected ? " machine-alarm" : "");
+    // Nunca se muestra un valor stale/invalid como si fuese instantaneo.
+    const currEnergy = energy && connected;
+    const currVib = vibration && connected;
+    const safeFormat = (ok,v,n,unit) => ok ? format(v,n)+(unit ? " "+unit : "") : "—";
+    text("scada-voltage", safeFormat(currEnergy,values[0],1,"V"));
+    text("scada-current", safeFormat(currEnergy,values[1],3,"A"));
+    text("scada-power", safeFormat(currEnergy,values[2],1,"W"));
+    text("scada-kwh", safeFormat(currEnergy,values[3],3,"kWh"));
+    text("scada-hz", safeFormat(currEnergy,values[4],1,"Hz"));
+    text("scada-pf", safeFormat(currEnergy,values[5],2,""));
+    text("scada-rms", safeFormat(currVib,values[6],3,"m/s²"));
+    text("scada-peak", safeFormat(currVib,values[7],3,"m/s²"));
+    text("scada-electric-line", currEnergy ? format(values[0],1)+" V · "+format(values[1],2)+" A · "+format(values[2],0)+" W" : "SENSOR ELECTRICO SIN LECTURA ACTUAL");
+    text("scada-vibration-line", currVib ? format(values[6],3)+" RMS · "+format(values[7],3)+" PICO m/s²" : "SENSOR DE VIBRACION SIN LECTURA ACTUAL");
+    const extra = (key,decimals) => currVib && Number.isFinite(sample.status[key]) && sample.status[key] >= 0 ? format(sample.status[key],decimals) : "—";
+    text("axis-x",extra("vx",3)); text("axis-y",extra("vy",3)); text("axis-z",extra("vz",3));
+    text("crest-value",extra("cf",2)); text("sample-rate",extra("fs",1));
+    text("window-samples",extra("ns",0)); text("missed-samples",extra("mi",0));
+    text("vib-flags",currVib && Number.isInteger(sample.status.vf) ? "0x"+sample.status.vf.toString(16).toUpperCase() : "—");
+    text("reference-progress",metadata && connected ? (sample.status.ref === 1 ? (sample.status.rc ?? "—") + " / " + (sample.status.rc ?? "—") : (sample.status.ct ?? 0) + " / " + (sample.status.rc ?? "—")) : "—");
+    text("rejected-auth",metadata && connected && Number.isFinite(sample.status.rj) ? format(sample.status.rj,0) : "—");
+    text("rejected-replay",metadata && connected && Number.isFinite(sample.status.rp) ? format(sample.status.rp,0) : "—");
+    text("data-lag",sample ? ageLabel(fresh.age) : "—");
+    const otReported = metadata && sample.status.ot === 1 && connected;
+    text("security-status",otReported ? "OT DECLARADO EN MAESTRO" : "OT NO CONFIRMADO");
+    byId("security-status").className = "security-pill" + (otReported ? " protected" : "");
+    byId("machine-state").className = "state-chip" + (stale || !metadata ? "" : state === "RUN" ? " running" : ["WARN", "ALARM", "PARTIAL"].includes(state) ? " warning" : "");
+    text("machine-state", stale ? "DATO ANTIGUO" : !sample ? "SIN DATOS" : !metadata ? "FORMATO INVÁLIDO" : incomplete ? "DATOS INCOMPLETOS" : STATES[state]);
+
+    if (!sample) setAssessment("A la espera de datos", "Conecta un canal o explora la demo para ver cómo se presenta la telemetría.");
+    else if (!metadata) setAssessment("Contrato de datos no reconocido", "El campo status debe contener la versión 1 y los metadatos E-TWIN. No se infiere un estado a partir de campos incompletos.", "warning");
+    else if (stale || networkError) setAssessment("Último estado: " + STATES[state].toLowerCase(), "Esta lectura no confirma el estado actual de la máquina. Revisa la conexión del maestro y la antigüedad de la publicación.", "warning");
+    else if (incomplete) setAssessment("Mediciones incompletas", "La validez declarada en status no coincide con los ocho campos recibidos. Revisa que todos los campos estén habilitados y que el maestro use el mismo contrato de datos.", "warning");
+    else if (state === "WAIT") setAssessment("Sin lectura eléctrica válida", "El maestro no dispone de una medición eléctrica actual. No se interpreta como consumo cero.", "warning");
+    else if (state === "STOP") setAssessment("Potencia bajo el umbral", "Estado inferido con el umbral de potencia configurado. No demuestra ausencia de tensión ni desconexión física.");
+    else if (state === "BASE") setAssessment("Capturando referencia", "Mantén una carga y un montaje estables. El maestro construye una referencia para comparar condiciones equivalentes.");
+    else if (state === "PARTIAL") setAssessment("Monitoreo parcial", "La lectura eléctrica está disponible; la vibración es inválida, está ausente o caducó al publicar.", "warning");
+    else if (state === "ALARM" || state === "WARN") setAssessment(state === "ALARM" ? "Umbral alto superado" : "Desviación detectada", alarmDescription(sample.status.alarm), state === "ALARM" ? "alarm" : "warning");
+    else setAssessment(sample.status.ref === 1 ? "Operación observada" : "Operando · sin referencia", sample.status.alarm ? alarmDescription(sample.status.alarm) : sample.status.ref === 1 ? "No se activaron los umbrales del maestro en esta instantánea. Compara siempre con la misma carga, velocidad y montaje." : "Captura una referencia estable en el Core2 para habilitar la comparación de potencia y vibración.", sample.status.alarm ? "warning" : "good");
+
+    text("history-count", history.length + " muestras");
+    byId("export-button").disabled = history.length === 0;
+    text("last-update", sample ? (mode === "demo" ? "Simulación · " : "Canal " + channel + " · ") + localTime(sample.time) + " · hace " + ageLabel(fresh.age) : "Sin mediciones recibidas.");
+    const signature = history.length + ":" + (sample ? sample.entryId + ":" + sample.time + ":" + sample.values.join(",") : "empty");
+    if (signature !== lastChartsSignature) { lastChartsSignature = signature; drawCharts(); }
+  }
+
+  function drawChart(id, field, color, decimals) {
+    const canvas = byId(id);
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(240, rect.width || 500);
+    const height = Math.max(130, rect.height || 180);
+    const ratio = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.scale(ratio, ratio);
+    const left = 42, right = 10, top = 8, bottom = 25;
+    const plotWidth = width - left - right, plotHeight = height - top - bottom;
+    const all = history.flatMap(sample => sample.values[field] === null ? [] : [sample.values[field]]);
+    const maximum = Math.max(field === 6 ? 0.01 : 1, ...(all.length ? all : [1])) * 1.18;
+    ctx.font = "9px system-ui, sans-serif";
+    ctx.textBaseline = "middle";
+    for (let i = 0; i <= 3; i++) {
+      const y = top + plotHeight * i / 3;
+      ctx.strokeStyle = "#293b4680"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(width - right, y); ctx.stroke();
+      ctx.fillStyle = "#8198a6"; ctx.textAlign = "right"; ctx.fillText(format(maximum * (1 - i / 3), decimals), left - 8, y);
+    }
+    if (!history.length || !all.length) { ctx.fillStyle = "#718b9a"; ctx.textAlign = "center"; ctx.fillText(history.length ? "Sin mediciones válidas en esta ventana" : "Las mediciones aparecerán aquí", left + plotWidth / 2, top + plotHeight / 2); return; }
+    const minTime = history[0].time, maxTime = history[history.length - 1].time;
+    const range = Math.max(POLL_MS, maxTime - minTime);
+    const x = time => left + (maxTime === minTime ? plotWidth / 2 : (time - minTime) / range * plotWidth);
+    const y = value => top + plotHeight * (1 - value / maximum);
+    for (const segment of segments(history, field)) {
+      ctx.strokeStyle = color; ctx.lineWidth = 1.9; ctx.lineJoin = "round"; ctx.beginPath();
+      segment.forEach((point, index) => index ? ctx.lineTo(x(point.time), y(point.value)) : ctx.moveTo(x(point.time), y(point.value)));
+      ctx.stroke();
+      if (segment.length === 1) { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x(segment[0].time), y(segment[0].value), 2.3, 0, Math.PI * 2); ctx.fill(); }
+    }
+    const positions = maxTime === minTime ? [0.5] : [0, 0.5, 1];
+    for (const p of positions) { ctx.fillStyle = "#8198a6"; ctx.textAlign = p === 0 ? "left" : p === 1 ? "right" : "center"; const time = maxTime === minTime ? minTime : minTime + (maxTime - minTime) * p; ctx.fillText(new Date(time).toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" }), left + plotWidth * p, height - 8); }
+  }
+
+  function drawCharts() { drawChart("power-chart", 2, "#75e0c6", 0); drawChart("vibration-chart", 6, "#ffa184", 2); }
+
+  function stopRequests() {
+    requestGeneration++;
+    if (pending) pending.abort();
+    pending = null; busy = false;
+    window.clearTimeout(pollTimer); window.clearInterval(demoTimer);
+    pollTimer = null; demoTimer = null;
+  }
+
+  async function poll() {
+    if (mode !== "live" || busy || !channel) return;
+    const generation = requestGeneration;
+    busy = true;
+    pending = new AbortController();
+    const controller = pending;
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    const url = new URL("https://api.thingspeak.com/channels/" + channel + "/feeds.json");
+    url.searchParams.set("results", "100");
+    url.searchParams.set("status", "true");
+    if (readKey) url.searchParams.set("api_key", readKey);
+    render();
+    try {
+      const response = await fetch(url.toString(), { signal: controller.signal, cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer" });
+      if (!response.ok) throw new Error("http:" + response.status);
+      const payload = await response.json();
+      if (generation !== requestGeneration || mode !== "live") return;
+      if (!payload || !Array.isArray(payload.feeds)) throw new Error("format");
+      const next = normalizeFeeds(payload.feeds);
+      if (payload.feeds.length && !next.length) throw new Error("timestamps");
+      history = next;
+      networkError = "";
+    } catch (error) {
+      if (generation !== requestGeneration || mode !== "live") return;
+      const message = error && error.message ? error.message : "";
+      networkError = message === "http:401" || message === "http:403" || message === "http:404" ? "No se puede acceder al canal. Comprueba el Channel ID y la Read API Key, y que los campos estén habilitados." : message === "format" ? "La respuesta no contiene un feed válido. Revisa el canal y su clave de lectura." : message === "timestamps" ? "El canal devolvió marcas de tiempo no válidas. No se interpretan como mediciones actuales." : "No se pudo leer ThingSpeak. Revisa Internet, el acceso al canal y las políticas del navegador. Se reintentará automáticamente.";
+    } finally {
+      window.clearTimeout(timeout);
+      if (generation === requestGeneration) { busy = false; pending = null; render(); pollTimer = window.setTimeout(poll, POLL_MS); }
+    }
+  }
+
+  function startLive(nextChannel, nextKey) {
+    stopRequests(); mode = "live"; channel = nextChannel; readKey = nextKey; history = []; networkError = ""; lastChartsSignature = "";
+    try { window.localStorage.setItem(storageKey, channel); } catch (_) { /* optional convenience only */ }
+    render(); poll();
+  }
+
+  function demoFeed(time, index) {
+    const phase = index / 7;
+    const voltage = 220 + 1.4 * Math.sin(phase);
+    const power = 1120 + 64 * Math.sin(phase * 0.8) + 18 * Math.sin(phase * 3);
+    const pf = 0.88 + 0.025 * Math.sin(phase * 0.4);
+    const vibration = 0.43 + 0.05 * Math.sin(phase * 0.7) + 0.015 * Math.sin(phase * 3);
+    return parseFeed({ created_at: new Date(time).toISOString(), entry_id: index, field1: voltage, field2: power / (voltage * pf), field3: power, field4: 145.3 + index * 1120 / 1000 * 20 / 3600, field5: 60 + 0.05 * Math.sin(phase), field6: pf, field7: vibration, field8: vibration * 2.5, status: "ver=2;state=RUN;e=1;v=1;ea=200;va=100;alarm=0;ref=1;run=1;ot=1;rc=10;ct=0;vx=0.19;vy=0.21;vz=0.32;cf=2.4;fs=500.0;ns=500;mi=0;rj=0;rp=0;dp=" + ((power / 1120 - 1) * 100).toFixed(1) + ";vr=" + (vibration / 0.43).toFixed(2) + ";boot=100;seq=" + index + ";vf=1" });
+  }
+
+  function startDemo() {
+    stopRequests(); mode = "demo"; history = []; networkError = ""; lastChartsSignature = "";
+    const now = Date.now();
+    for (let index = 0; index < 100; index++) history.push(demoFeed(now - (99 - index) * POLL_MS, index + 1));
+    demoSequence = 100;
+    render();
+    demoTimer = window.setInterval(() => { history.push(demoFeed(Date.now(), ++demoSequence)); history = history.slice(-100); render(); }, POLL_MS);
+  }
+
+  function stopDemo() { stopRequests(); mode = "idle"; history = []; networkError = ""; lastChartsSignature = ""; render(); }
+
+  function openConfig() { byId("channel-input").value = channel; byId("key-input").value = readKey; text("form-error", ""); const dialog = byId("config-dialog"); if (typeof dialog.showModal === "function") dialog.showModal(); else dialog.setAttribute("open", ""); }
+  function closeConfig() { const dialog = byId("config-dialog"); if (typeof dialog.close === "function") dialog.close(); else dialog.removeAttribute("open"); }
+
+  byId("configure-button").addEventListener("click", openConfig);
+  byId("close-dialog").addEventListener("click", closeConfig);
+  byId("demo-button").addEventListener("click", startDemo);
+  byId("stop-demo").addEventListener("click", stopDemo);
+  byId("config-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const nextChannel = byId("channel-input").value.trim();
+    const nextKey = byId("key-input").value.trim();
+    if (!/^[1-9]\d{0,11}$/.test(nextChannel)) { text("form-error", "Introduce un Channel ID numérico válido."); return; }
+    if (nextKey && !/^[A-Za-z0-9_-]{8,128}$/.test(nextKey)) { text("form-error", "La Read API Key tiene un formato no válido."); return; }
+    closeConfig(); startLive(nextChannel, nextKey);
+  });
+  byId("reset-button").addEventListener("click", () => {
+    stopRequests(); mode = "idle"; channel = ""; readKey = ""; history = []; networkError = ""; lastChartsSignature = "";
+    try { window.localStorage.removeItem(storageKey); } catch (_) { /* optional storage */ }
+    byId("channel-input").value = ""; byId("key-input").value = ""; text("form-error", "Configuración borrada."); render();
+  });
+  byId("export-button").addEventListener("click", () => {
+    if (!history.length) return;
+    const header = ["origen", "fecha_UTC", "entry_id", "voltaje_V", "corriente_A", "potencia_W", "energia_kWh", "frecuencia_Hz", "factor_potencia", "vibracion_RMS_ms2", "vibracion_pico_ms2", "estado", "electrico_valido", "vibracion_valida", "rms_x", "rms_y", "rms_z", "factor_cresta", "muestreo_hz", "muestras", "flags", "perdidas", "rechazos_ot", "replays_ot"];
+    const rows = history.map(sample => [mode === "demo" ? "DEMO_SIMULADA" : "ThingSpeak_" + channel, new Date(sample.time).toISOString(), sample.entryId, ...sample.values, sample.metaValid ? sample.status.state : "INVALID", sample.energyValid ? 1 : 0, sample.vibrationValid ? 1 : 0, ...["vx","vy","vz","cf","fs","ns","vf","mi","rj","rp"].map(k => Number.isFinite(sample.status[k]) ? sample.status[k] : null)]);
+    const csv = "\ufeff" + [header, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a"); link.href = url; link.download = "E-TWIN_" + (mode === "demo" ? "DEMO" : channel) + "_" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  window.addEventListener("resize", drawCharts);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && mode === "live" && !busy) { window.clearTimeout(pollTimer); poll(); } render(); });
+  window.addEventListener("pagehide", () => { stopRequests(); readKey = ""; byId("key-input").value = ""; });
+  window.setInterval(render, 1000);
+  render();
+})();
+</script>
+</body>
+</html>

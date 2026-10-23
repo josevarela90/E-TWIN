@@ -1,0 +1,118 @@
+{
+  "pages": 10,
+  "abstract_words": 201,
+  "class": "IEEEtran journal onecolumn 11pt a4paper",
+  "checks": [
+    {
+      "page": 1,
+      "words": 563,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 2,
+      "words": 617,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 3,
+      "words": 373,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 4,
+      "words": 494,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 5,
+      "words": 590,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 6,
+      "words": 150,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 7,
+      "words": 326,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 8,
+      "words": 502,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 9,
+      "words": 708,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    },
+    {
+      "page": 10,
+      "words": 324,
+      "unresolved_citation": false,
+      "page_rect": [
+        0.0,
+        0.0,
+        595.2760009765625,
+        841.8900146484375
+      ]
+    }
+  ],
+  "known_pending": "Autores, afiliaciones, correos y tutor no suministrados"
+}

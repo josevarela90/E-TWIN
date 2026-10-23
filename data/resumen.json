@@ -1,0 +1,40 @@
+{
+  "source_file": "feeds_original.csv",
+  "source_sha256": "a6d3bc68206178d4ace958a9ed2b800200f68099199e722c5698b66efa486a54",
+  "selection": "[ultima_fecha_conjunta_valida - 600 s, ultima_fecha_conjunta_valida], ambos extremos incluidos",
+  "input_rows": 1819,
+  "joint_valid_rows_entire_file": 62,
+  "window_start_UTC": "2026-10-23T21:40:37+00:00",
+  "window_end_UTC": "2026-10-23T21:50:37+00:00",
+  "window_start_Ecuador": "2026-10-23T16:40:37-05:00",
+  "window_end_Ecuador": "2026-10-23T16:50:37-05:00",
+  "window_requested_seconds": 600,
+  "observed_span_seconds": 600.0,
+  "window_rows": 31,
+  "window_valid_rows": 31,
+  "window_rejected_rows": 0,
+  "entry_id_first": 1785,
+  "entry_id_last": 1815,
+  "interarrival_min_s": 20.0,
+  "interarrival_median_s": 20.0,
+  "interarrival_max_s": 20.0,
+  "energy_counter_delta_Wh": 57.00000000001637,
+  "energy_trapezoid_Wh": 56.77805555555554,
+  "energy_internal_difference_Wh": 0.2219444444608314,
+  "energy_internal_difference_pct": 0.38937621835222397,
+  "power_internal_deviation_mean_pct": 0.7205625693882203,
+  "power_internal_deviation_max_pct": 1.232519281719182,
+  "rms_axis_identity_max_abs_m_s2": 0.0006073910375059555,
+  "crest_identity_max_abs": 0.004856081708449089,
+  "states": {
+    "WARN": 31
+  },
+  "alarm_masks": {
+    "34": 31
+  },
+  "first_published_baseline_Ecuador": "2026-10-23T16:46:37-05:00",
+  "rows_with_baseline": 13,
+  "rows_after_window": 4,
+  "standard_deviation": "muestral, ddof=1",
+  "interpretation": "Consistencia interna, no exactitud frente a un patrón. Cadencia cloud, no latencia ni PDR de ESP-NOW."
+}

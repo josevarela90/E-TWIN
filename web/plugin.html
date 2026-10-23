@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>E-TWIN · SCADA OT 2.0</title>
+  <style>%%PLUGIN_CSS%%</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="E-TWIN inicio"><span class="brand-icon" aria-hidden="true">E<span>↗</span></span><span>E-TWIN<small>ENERGY DIGITAL TWIN</small></span></a>
+    <div class="top-actions"><span class="mode-pill" id="mode-pill">SIN CONEXIÓN</span><button class="button secondary" id="configure-button" type="button">Conectar canal</button></div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div><p class="eyebrow">INTELIGENCIA EN EL PUNTO DE MEDICIÓN</p><h1>La energía cuenta una historia.<br><span>Escucha a tu máquina.</span></h1><p class="hero-copy">Supervisión SCADA de solo lectura. Sensores PZEM + IMU, estado, referencia de 10 muestras y alarmas desde ThingSpeak.</p></div>
+    <div class="connection-card"><span class="connection-dot" id="connection-dot"></span><div><strong id="connection-title">Esperando configuración</strong><p id="connection-detail">Conecta tu canal de ThingSpeak para comenzar.</p></div></div>
+  </section>
+
+  <section id="demo-notice" class="notice demo-notice" hidden><strong>DEMOSTRACIÓN · DATOS SIMULADOS</strong><span>Esta vista no representa mediciones de tus equipos.</span><button type="button" id="stop-demo" class="text-button">Salir de la demo</button></section>
+  <section id="error-notice" class="notice error-notice" role="status" hidden></section>
+
+  <section class="metrics" aria-label="Mediciones eléctricas principales">
+    <article class="metric"><div class="metric-top"><span>Voltaje</span><span class="metric-symbol">V</span></div><p class="metric-value"><span id="voltage-value">—</span><small>V</small></p><p class="metric-note">Tensión RMS</p></article>
+    <article class="metric"><div class="metric-top"><span>Corriente</span><span class="metric-symbol">A</span></div><p class="metric-value"><span id="current-value">—</span><small>A</small></p><p class="metric-note">Corriente RMS</p></article>
+    <article class="metric featured"><div class="metric-top"><span>Potencia activa</span><span class="metric-symbol">↗</span></div><p class="metric-value"><span id="power-value">—</span><small>W</small></p><p class="metric-note">Consumo instantáneo</p></article>
+    <article class="metric"><div class="metric-top"><span>Energía acumulada</span><span class="metric-symbol">Σ</span></div><p class="metric-value"><span id="energy-value">—</span><small>kWh</small></p><p class="metric-note">Contador persistente del PZEM</p></article>
+  </section>
+
+  <section class="workspace">
+    <article class="panel twin-panel">
+      <div class="panel-heading"><div><p class="eyebrow">GEMELO DIGITAL · VISTA DE ESTADO</p><h2>De la medición a la condición</h2></div><span class="state-chip" id="machine-state">SIN DATOS</span></div>
+      <div class="twin-drawing" id="twin-drawing">
+        <svg viewBox="0 0 700 322" role="img" aria-labelledby="twin-title twin-desc">
+          <title id="twin-title">Sistema E-TWIN</title><desc id="twin-desc">El sensor eléctrico y el sensor de vibración observan una máquina. El maestro Core2 recibe ambos por ESP-NOW y publica la telemetría en ThingSpeak.</desc>
+          <defs><linearGradient id="motor-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#294856"/><stop offset="1" stop-color="#152d39"/></linearGradient><pattern id="dot-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#31414b"/></pattern></defs>
+          <rect width="700" height="322" fill="url(#dot-grid)" opacity=".5"/>
+          <path d="M166 95 H245 V158 H290" class="wire energy-wire"/>
+          <path d="M166 234 H244 V189 H290" class="wire vibration-wire"/>
+          <path d="M430 175 H503 V130 H542" class="wire master-wire"/>
+          <path d="M588 171 V219" class="wire master-wire"/>
+          <g class="sensor-node energy-node"><rect x="20" y="55" width="153" height="81" rx="13"/><circle cx="42" cy="76" r="4"/><text x="54" y="81" class="svg-small">ESCLAVO 01</text><text x="36" y="103" class="svg-main">ATOMS3 Lite</text><text x="36" y="121" class="svg-sub">PZEM-004T · Electricidad</text></g>
+          <g class="sensor-node vibration-node"><rect x="20" y="195" width="153" height="81" rx="13"/><circle cx="42" cy="216" r="4"/><text x="54" y="221" class="svg-small">ESCLAVO 02</text><text x="36" y="243" class="svg-main">ATOMS3</text><text x="36" y="261" class="svg-sub">IMU · Vibración filtrada</text></g>
+          <g class="motor"><rect x="285" y="143" width="142" height="67" rx="14" fill="url(#motor-gradient)" stroke="#5a8292"/><rect x="413" y="159" width="40" height="34" rx="3" fill="#2b4c5b" stroke="#5a8292"/><path d="M311 146 V207 M323 146 V207 M335 146 V207 M347 146 V207 M359 146 V207 M371 146 V207 M383 146 V207" stroke="#3b6171" stroke-width="3"/><circle cx="295" cy="176" r="30" fill="#17323f" stroke="#5a8292"/><g class="rotor"><path d="M295 152 V200 M271 176 H319 M278 159 L312 193 M278 193 L312 159" stroke="#72dac7" stroke-width="3"/><circle cx="295" cy="176" r="7" fill="#98e2d5"/></g><path d="M307 211 V224 H406 V211" fill="none" stroke="#5a8292" stroke-width="6"/><rect x="324" y="126" width="44" height="17" rx="4" fill="#294856" stroke="#5a8292"/><text x="355" y="254" text-anchor="middle" class="svg-main">Máquina monitorizada</text><text x="355" y="275" text-anchor="middle" class="svg-sub">Representación orientativa</text></g>
+          <g class="master-node"><rect x="537" y="88" width="145" height="83" rx="13"/><text x="553" y="111" class="svg-small">MAESTRO</text><text x="553" y="136" class="svg-main">M5Stack Core2</text><text x="553" y="154" class="svg-sub">Análisis + MQTT / TLS</text></g>
+          <g class="cloud-node"><rect x="537" y="219" width="145" height="48" rx="13"/><text x="610" y="248" text-anchor="middle" class="svg-main">ThingSpeak</text></g>
+          <text x="474" y="105" text-anchor="middle" class="svg-small">ESP-NOW</text><text x="628" y="201" text-anchor="middle" class="svg-small">NUBE</text>
+          <g class="scada-readouts">
+            <rect x="195" y="10" width="315" height="40" rx="8" class="instrument"/>
+            <text x="208" y="24" class="svg-small">PZEM / ENERGÍA</text>
+            <text x="208" y="40" class="svg-main" id="scada-electric-line">— V  ·  — A  ·  — W</text>
+            <rect x="195" y="277" width="315" height="38" rx="8" class="instrument"/>
+            <text x="208" y="289" class="svg-small">IMU / VIBRACIÓN</text>
+            <text x="208" y="305" class="svg-main" id="scada-vibration-line">— RMS  ·  — pico</text>
+          </g>
+          <g class="energy-particle"><circle r="5" cx="175" cy="95" fill="#7de1c7"/></g>
+          <g class="vib-particle"><circle r="5" cx="175" cy="234" fill="#ffa184"/></g>
+        </svg>
+      </div>
+      <div class="scada-live-board" aria-label="Lecturas instantáneas en el proceso">
+        <div><span>Voltaje</span><strong id="scada-voltage">—</strong></div>
+        <div><span>Corriente</span><strong id="scada-current">—</strong></div>
+        <div><span>Potencia</span><strong id="scada-power">—</strong></div>
+        <div><span>RMS vibración</span><strong id="scada-rms">—</strong></div>
+        <div><span>Factor P.</span><strong id="scada-pf">—</strong></div>
+        <div><span>Frecuencia</span><strong id="scada-hz">—</strong></div>
+        <div><span>kWh acumulados</span><strong id="scada-kwh">—</strong></div>
+        <div><span>Pico vibración</span><strong id="scada-peak">—</strong></div>
+      </div>
+      <div class="node-statuses"><div><span class="node-indicator" id="energy-indicator"></span><span>Eléctrico</span><strong id="energy-status">Sin datos</strong></div><div><span class="node-indicator" id="vibration-indicator"></span><span>Vibración</span><strong id="vibration-status">Sin datos</strong></div><div><span class="node-indicator" id="master-indicator"></span><span>Maestro → nube</span><strong id="master-status">Sin datos</strong></div></div>
+      <p class="caption">El giro indica el estado inferido de operación; no representa velocidad medida ni RPM.</p>
+    </article>
+
+    <article class="panel condition-panel"><div class="panel-heading"><div><p class="eyebrow">LECTURA DE OPERACIÓN</p><h2>Condición observada</h2></div><span class="condition-icon" aria-hidden="true">◉</span></div>
+      <div class="assessment" id="assessment"><span class="assessment-label">ESTADO DEL SISTEMA</span><h3 id="assessment-title">A la espera de datos</h3><p id="assessment-copy">Conecta un canal o explora la demo para ver cómo se presenta la telemetría.</p></div>
+      <dl class="analysis-list"><div><dt>Potencia aparente · V × I</dt><dd id="apparent-value">— VA</dd></div><div><dt>Factor de potencia</dt><dd id="pf-value">—</dd></div><div><dt>Frecuencia de red</dt><dd id="frequency-value">— Hz</dd></div><div><dt>Comparación de potencia</dt><dd id="relative-power-value">—</dd></div><div><dt>Comparación de vibración</dt><dd id="relative-vibration-value">—</dd></div></dl>
+      <p class="technical-note"><strong>Alcance:</strong> el factor de potencia y las desviaciones no equivalen a eficiencia energética. La eficiencia real necesita una medición de trabajo útil o producción. Los umbrales se calibran en el maestro para una condición de carga comparable.</p>
+    </article>
+  </section>
+
+  <section class="vibration-strip" aria-label="Vibración filtrada"><div><p class="eyebrow">ACELERACIÓN DE VIBRACIÓN</p><h2>Una señal, menos ruido.</h2></div><div class="vibration-stat"><span>RMS vectorial</span><strong id="vib-rms-value">—</strong><small>m/s²</small></div><div class="vibration-stat"><span>Pico vectorial</span><strong id="vib-peak-value">—</strong><small>m/s²</small></div><div class="vibration-context"><strong>IMU · 500 Hz · filtros Butterworth 6–75 Hz (4.º orden)</strong><p>Gravedad y componentes lentas atenuadas. La banda es limitada; no es velocidad en mm/s ni diagnóstico ISO.</p></div></section>
+
+  <section class="panel telemetry-panel" aria-label="Diagnóstico y medidas complementarias">
+    <div class="panel-heading"><div><p class="eyebrow">DIAGNÓSTICO DETALLADO</p><h2>Variables adicionales y seguridad OT</h2></div><span class="security-pill" id="security-status">SIN DATOS OT</span></div>
+    <div class="telemetry-grid">
+      <div><span>RMS eje X</span><strong id="axis-x">—</strong><small>m/s²</small></div>
+      <div><span>RMS eje Y</span><strong id="axis-y">—</strong><small>m/s²</small></div>
+      <div><span>RMS eje Z</span><strong id="axis-z">—</strong><small>m/s²</small></div>
+      <div><span>Factor de cresta</span><strong id="crest-value">—</strong><small>pico / RMS</small></div>
+      <div><span>Frecuencia de muestreo</span><strong id="sample-rate">—</strong><small>Hz</small></div>
+      <div><span>Muestras por ventana</span><strong id="window-samples">—</strong><small>datos</small></div>
+      <div><span>Indicador sensor IMU</span><strong id="vib-flags">—</strong><small>bits</small></div>
+      <div><span>Muestras perdidas</span><strong id="missed-samples">—</strong><small>datos</small></div>
+      <div><span>Referencia</span><strong id="reference-progress">—</strong><small>muestras</small></div>
+      <div><span>Tramas no autenticadas</span><strong id="rejected-auth">—</strong><small>desde arranque</small></div>
+      <div><span>Repeticiones rechazadas</span><strong id="rejected-replay">—</strong><small>desde arranque</small></div>
+      <div><span>Tiempo de lectura</span><strong id="data-lag">—</strong><small>última nube</small></div>
+    </div>
+    <div class="ot-policy"><strong>OT · SOLO LECTURA</strong><span>El navegador no controla la máquina. ESP-NOW usa cifrado de pares + autenticación HMAC y el Core2 publica por MQTT/TLS. El estado OT del panel es reportado por el maestro, no una verificación criptográfica directa desde el navegador.</span></div>
+  </section>
+
+  <section class="panel history-panel"><div class="panel-heading"><div><p class="eyebrow">HISTORIAL DEL CANAL</p><h2>La evolución también importa</h2></div><div class="chart-actions"><span id="history-count">0 muestras</span><button class="button secondary small" id="export-button" type="button" disabled>Exportar CSV</button></div></div><div class="chart-grid"><div class="chart-block"><h3><span class="legend mint"></span>Potencia activa <small>W</small></h3><div class="chart-wrap"><canvas id="power-chart" aria-label="Histórico de potencia activa en vatios" role="img"></canvas></div></div><div class="chart-block"><h3><span class="legend coral"></span>Vibración RMS <small>m/s²</small></h3><div class="chart-wrap"><canvas id="vibration-chart" aria-label="Histórico de aceleración RMS de vibración" role="img"></canvas></div></div></div><p class="caption" id="history-caption">Se mostrarán hasta las últimas 100 muestras. Los datos ausentes interrumpen la curva.</p></section>
+
+  <footer class="footer"><div><strong>E-TWIN</strong><span>Un sistema. Dos fuentes. Una lectura de estado.</span></div><p id="last-update">Sin mediciones recibidas.</p><button type="button" class="text-button" id="demo-button">Explorar demo</button></footer>
+</main>
+
+<dialog id="config-dialog" aria-labelledby="config-title"><form id="config-form"><div class="dialog-heading"><div><p class="eyebrow">ORIGEN DE LOS DATOS</p><h2 id="config-title">Conectar a ThingSpeak</h2></div><button class="close-button" id="close-dialog" type="button" aria-label="Cerrar configuración">×</button></div><p class="dialog-copy">Introduce el canal que recibe las publicaciones MQTT del Core2.</p><label for="channel-input">Channel ID</label><input id="channel-input" name="channel" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="Ej. 1234567" required autocomplete="off"><label for="key-input">Read API Key <span>Solo si el canal es privado</span></label><input id="key-input" name="key" type="password" placeholder="Clave de lectura del canal" autocomplete="off" spellcheck="false"><p class="field-help">La clave de lectura se conserva únicamente en memoria hasta cerrar o recargar esta página. No introduzcas claves de escritura ni credenciales MQTT.</p><p class="field-help">Consulta cada 20 segundos. La vista identifica como antigua una muestra con más de 65 segundos. Los datos de nube son instantáneas del último intervalo publicado.</p><div class="form-error" id="form-error" role="alert"></div><div class="dialog-actions"><button class="button secondary" id="reset-button" type="button">Borrar configuración</button><button class="button primary" type="submit">Conectar canal</button></div></form></dialog>
+<script>%%PLUGIN_JAVASCRIPT%%</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+Pruebas sobre copia limpia inicializada, 23/10/2026
+Claves actualizadas. Recompila y carga MAESTRO + AMBOS ESCLAVOS.
+Creado include/config.h. Completa tus credenciales localmente.
+Abre la raíz que contiene platformio.ini. No publiques los archivos locales.
+E-TWIN core: 145 checks, 0 failures
+DC residual 0.000001400 m/s2
+sine    1.0 Hz rms 0.000545 peak 0.000771 crest 1.4149 z 0.00000139
+sine    6.0 Hz rms 0.500001 peak 0.707100 crest 1.4142 z 0.00000139
+sine   20.0 Hz rms 0.707079 peak 0.998624 crest 1.4123 z 0.00000139
+sine   60.0 Hz rms 0.664331 peak 0.938832 crest 1.4132 z 0.00000139
+sine   75.0 Hz rms 0.500000 peak 0.701976 crest 1.4040 z 0.00000139
+sine  200.0 Hz rms 0.000531 peak 0.000744 crest 1.4015 z 0.00000139
+PASS: DC rejection, frequency response, vector RMS, finite zero, windows, reset.
+E-TWIN web: validity, null/zero, status version, stale/future clock, missing nodes, graph gaps and CSV tests passed.
+E-TWIN UI: IDs, initial empty state, explicit demo, real API options, non-persisted key, invalid sensors, and cancellation checks passed (stub DOM; no browser visual QA).
+PASS: protocolo, analisis, filtro y panel. No equivale a prueba fisica.

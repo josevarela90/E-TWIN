@@ -1,0 +1,28 @@
+{
+  "source": "feeds.csv suministrado por el equipo",
+  "source_sha256": "a6d3bc68206178d4ace958a9ed2b800200f68099199e722c5698b66efa486a54",
+  "firmware_source": "V2.zip suministrado por el equipo",
+  "firmware_zip_sha256": "0e5d5367689fd936d8507fc3b02d9f9921827915e90ce66df253bac0d1e2ddd0",
+  "photographs": {
+    "foto_imu.jpg": "WhatsApp Image 2026-10-23 at 5.09.44 PM.jpeg",
+    "foto_pzem.jpg": "WhatsApp Image 2026-10-23 at 5.06.50 PM (4).jpeg",
+    "foto_core2_proceso.jpg": "WhatsApp Image 2026-10-23 at 5.06.50 PM (2).jpeg",
+    "foto_core2_energia.jpg": "WhatsApp Image 2026-10-23 at 5.06.50 PM (1).jpeg",
+    "foto_core2_vibracion.jpg": "WhatsApp Image 2026-10-23 at 5.06.50 PM (3).jpeg",
+    "foto_core2_seguridad.jpg": "WhatsApp Image 2026-10-23 at 5.06.50 PM.jpeg"
+  },
+  "screenshot_source": "Capturas_E-Twin.docx, 4 imágenes embebidas; no se alteraron los valores de pantalla",
+  "author_metadata": "No proporcionados; completar articulo/metadatos.tex",
+  "evaluation_date": "2026-10-23",
+  "video_url": "https://youtu.be/txEMzoSkKmY",
+  "public_changes": [
+    "Retiradas credenciales y claves; añadido config.example.h e inicialización local",
+    "Añadidos informe, figuras, datos, análisis y documentación; firmware de V2 conservado"
+  ],
+  "original_csv_unchanged": true,
+  "firmware_sha256": {
+    "slave_energy.cpp": "45d247733fc96c6c71c68687fa0e5191a956044bfa715d7e3f97ef1ad6be9a75",
+    "slave_vibration.cpp": "e4a78c182297e214874e92c640e5dd39d32aa65a93bc7d4281b233e62e5de246",
+    "master_core2.cpp": "8c82dc293d733f4cd44f0b49b673ff9893003cfa74fc44bb50bb9fdb20ec2c60"
+  }
+}
