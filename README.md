@@ -92,4 +92,3 @@ docs/           Evidencias, procedencia y notas de entrega
 tests/, tools/  Pruebas y preparación local
 ```
 
-Antes de presentar el informe, completa autores, afiliación, correos y tutor en `articulo/metadatos.tex`. Revisa [pendientes de entrega](docs/ANTES_DE_ENTREGAR.md) y [derechos y licencia](DERECHOS.md). Este repositorio conserva el firmware suministrado; la preparación editorial no implica una nueva validación física.
