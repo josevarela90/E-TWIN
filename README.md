@@ -4,7 +4,7 @@ Prototipo IoT de **solo monitoreo** con dos nodos ESP-NOW, análisis local en M5
 
 [![Ver la demostración de E-TWIN](assets/video_etwin.png)](https://youtu.be/txEMzoSkKmY)
 
-**Haz clic en la imagen para abrir el video.** La miniatura se compone de fotografías suministradas del prototipo; no es un fotograma extraído del video.
+**Haz clic en la imagen para abrir el video.**
 
 ## Arquitectura
 
