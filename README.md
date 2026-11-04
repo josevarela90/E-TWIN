@@ -2,13 +2,13 @@
 
 Prototipo IoT de **solo monitoreo** con dos nodos ESP-NOW, análisis local en M5 Core2 y SCADA web. Material preparado para la categoría **Industria 4.0, AIoT y Gemelos Digitales** del I Concurso Nacional IoT ULEAM 2026.
 
-[![Ver la demostración de E-TWIN](assets/video_etwin.png)](https://youtu.be/txEMzoSkKmY)
+[![Ver la demostración de E-TWIN](https://raw.githubusercontent.com/josevarela90/E-TWIN/main/assets/video_etwin.png)](https://youtu.be/txEMzoSkKmY)
 
 **Haz clic en la imagen para abrir el video.**
 
 ## Arquitectura
 
-![Arquitectura E-TWIN](assets/arquitectura_etwin.png)
+![Arquitectura E-TWIN](https://raw.githubusercontent.com/josevarela90/E-TWIN/main/assets/arquitectura_etwin.png)
 
 | Dispositivo | Función |
 |---|---|
@@ -19,11 +19,6 @@ Prototipo IoT de **solo monitoreo** con dos nodos ESP-NOW, análisis local en M5
 
 La representación digital refleja telemetría: no estima RPM, eficiencia mecánica ni vida útil, y no gobierna actuadores.
 
-## Artículo y resultados
-
-**[Leer informe IEEE (PDF)](articulo/E_TWIN_Informe_IEEE_ULEAM_2026.pdf)** · [Fuentes LaTeX](articulo/main.tex) · [Datos seleccionados](data/ultimos_10_min_validos.csv) · [Resumen auditable](data/resumen.json)
-
-Se analizaron **31 observaciones** del **23/10/2026, 16:40:37–16:50:37 (UTC−5)**: los extremos incluidos cubren 600 s y 30 intervalos de 20 s. La ventana se ancla a la última lectura conjunta válida; las filas posteriores incompletas no se convierten en ceros.
 
 | Indicador observado | Resultado |
 |---|---:|
